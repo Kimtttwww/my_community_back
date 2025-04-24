@@ -7,8 +7,8 @@ spring:
   application:
     name: MyCommunity
   datasource:
-    url: jdbc:mysql://localhost:3306/my-community
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/my_community
     username: commu
     password: commu
   jpa:

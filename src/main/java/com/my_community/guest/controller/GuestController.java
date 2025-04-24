@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class GuestController {
+
 	private final GuestService service;
 
 }

@@ -1,4 +1,4 @@
-package com.my_community.guest.model.entity;
+package com.my_community.board.model.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,12 +11,20 @@ import lombok.ToString;
 @Setter
 @ToString(callSuper = true)
 @Entity
-@Table(name = "tb_guest")
-public class Guest extends GuestUnknown {
+@Table(name = "tb_reply")
+public class Reply {
+
 	@Id
+	private Long board_no;
+
+	@Id
+	private String board;
+
 	private Long gid;
 
-	private String nickname;
-
 	private String status;
+
+	private String content;
+
+	private String created;
 }
