@@ -16,12 +16,16 @@ import lombok.ToString;
 @Table(name = "tb_board")
 public class Board extends BoardContent {
 
-	@Id	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long board_no;
+
+	private String board;
 
 	private Long gid;
 
 	private Boolean status;
+
+	private Long category_no;
 
 	private Integer views;
 }
