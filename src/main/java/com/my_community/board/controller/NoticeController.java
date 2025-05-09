@@ -1,11 +1,16 @@
 package com.my_community.board.controller;
 
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.RequiredArgsConstructor;
+import com.my_community.board.model.service.NoticeService;
 
 @RestController
-@RequiredArgsConstructor
-public class NoticeController {
+@RequestMapping("/notice")
+public class NoticeController extends CommonBoardController {
+
+	public NoticeController(NoticeService service) {
+		super(service);
+	}
 
 }

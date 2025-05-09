@@ -1,9 +1,10 @@
-package com.my_community.config;
+package com.my_community.common.config;
 
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,7 +45,7 @@ public class SecurityConfig {
 	CorsConfigurationSource myCorsConfig() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+		configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "DELETE"));
 		configuration.setAllowedHeaders(List.of("*"));
 		configuration.setAllowCredentials(true);
 
@@ -59,9 +60,9 @@ public class SecurityConfig {
 
 		authFilter.setAuthenticationManager(authConfig.getAuthenticationManager());
 //		TODO 로그인 성공시 JWT 발급 처리 URL과 동일하게 설정 필요
-		authFilter.setFilterProcessesUrl(null);
-		authFilter.setUsernameParameter(null);
-		authFilter.setPasswordParameter(null);
+		authFilter.setFilterProcessesUrl("mylogin");
+		authFilter.setUsernameParameter("id");
+		authFilter.setPasswordParameter("pw");
 		return authFilter;
 	}
 
@@ -76,6 +77,11 @@ public class SecurityConfig {
 		provider.setUserDetailsService(service);
 		provider.setPasswordEncoder(passwordEncoder());
 		return provider;
+	}
+	
+	@Bean
+	AuthenticationManager authManager(AuthenticationConfiguration authConfig) throws Exception {
+		return authConfig.getAuthenticationManager();
 	}
 
 	@Bean

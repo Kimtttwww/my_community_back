@@ -1,12 +1,12 @@
 package com.my_community.board.model.service;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-import lombok.RequiredArgsConstructor;
+import com.my_community.board.model.entity.Board;
 
-@Service
-@RequiredArgsConstructor
-public class BoardService {
+public interface BoardService {
 
-	
+	List<Board> getBoardList();
+
+	int getBoardCount();
 }

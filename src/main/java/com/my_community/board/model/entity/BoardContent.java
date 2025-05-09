@@ -11,7 +11,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @MappedSuperclass
-public class BoardContent {
+public abstract class BoardContent {
 
 	private String title;
 
