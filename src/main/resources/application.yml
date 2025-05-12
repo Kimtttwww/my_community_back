@@ -31,3 +31,5 @@ logging:
       apache:
         ibatis: DEBUG
 
+jwt:
+  secret: it_s_my_secret_key_for_using_jwt

@@ -1,10 +1,9 @@
 package com.my_community.board.model.entity;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,11 +11,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
-@Entity
-@Table(name = "tb_board")
+@MappedSuperclass
 public class Board extends BoardContent {
 
-	@Id	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long board_no;
 
 	private String board;
@@ -24,6 +22,8 @@ public class Board extends BoardContent {
 	private Long gid;
 
 	private Boolean status;
+
+	private Long category_no;
 
 	private Integer views;
 }

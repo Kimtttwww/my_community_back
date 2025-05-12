@@ -1,11 +1,16 @@
 package com.my_community.board.controller;
 
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.RequiredArgsConstructor;
+import com.my_community.board.model.service.AnonymousService;
 
 @RestController
-@RequiredArgsConstructor
-public class AnonymousController {
+@RequestMapping("/anonymous")
+public class AnonymousController extends CommonBoardController {
+
+	public AnonymousController(AnonymousService service) {
+		super(service);
+	}
 
 }
