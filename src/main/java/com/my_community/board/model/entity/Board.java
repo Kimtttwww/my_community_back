@@ -15,15 +15,13 @@ import lombok.ToString;
 public class Board extends BoardContent {
 
 	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long board_no;
-
-	private String board;
+	private Long boardNo;
 
 	private Long gid;
 
 	private Boolean status;
 
-	private Long category_no;
+	private Long categoryNo;
 
 	private Integer views;
 }

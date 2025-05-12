@@ -25,7 +25,7 @@ public class NoticeService implements BoardService {
 
 	@Override
 	public int getBoardCount() {
-		return 0;
+		return repo.countByStatusTrue();
 	}
 
 }
