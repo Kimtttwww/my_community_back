@@ -17,7 +17,7 @@ public class Board extends BoardContent {
 	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long boardNo;
 
-	private Long gid;
+	private String writer;
 
 	private Boolean status;
 

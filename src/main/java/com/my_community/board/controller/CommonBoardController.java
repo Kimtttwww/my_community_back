@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.my_community.board.model.dto.OutBoardList;
+import com.my_community.board.model.dto.BoardListResult;
 import com.my_community.board.model.entity.Board;
 import com.my_community.board.model.service.BoardService;
 
@@ -17,9 +17,9 @@ public abstract class CommonBoardController {
 	protected final BoardService service;
 
 	@GetMapping("/")
-	public ResponseEntity<OutBoardList> getBoardList() {
+	public ResponseEntity<BoardListResult> getBoardList() {
 		List<Board> boards = service.getBoardList();
 		int count = service.getBoardCount();
-		return ResponseEntity.ok(new OutBoardList(count, boards));
+		return ResponseEntity.ok(new BoardListResult(count, boards));
 	}
 }

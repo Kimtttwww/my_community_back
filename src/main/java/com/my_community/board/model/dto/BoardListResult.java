@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.my_community.board.model.entity.Board;
 
-public record OutBoardList(
+public record BoardListResult(
 		Integer count,
 		List<Board> boards
 ) {}
