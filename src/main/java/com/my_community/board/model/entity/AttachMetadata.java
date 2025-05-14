@@ -13,7 +13,7 @@ import lombok.ToString;
 @Table(name = "tb_attach")
 public class AttachMetadata extends AttachId {
 
-	private Boolean status;
+	private boolean status;
 
 	private String origin;
 

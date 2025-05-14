@@ -13,8 +13,8 @@ import lombok.ToString;
 public class AttachId {
 
 	@Id
-	private Long attach_no;
+	private long attach_no;
 
 	@Id
-	private Long board_no;
+	private long board_no;
 }

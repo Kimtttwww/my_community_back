@@ -16,7 +16,7 @@ import lombok.ToString;
 @Table(name = "tb_guest")
 public class Guest extends GuestUnknown {
 	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long gid;
+	private long gid;
 
 	private String nickname;
 

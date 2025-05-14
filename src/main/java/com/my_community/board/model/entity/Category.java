@@ -17,7 +17,7 @@ import lombok.ToString;
 public class Category {
 
 	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long category_no;
+	private long category_no;
 
 	@Id
 	private String board;

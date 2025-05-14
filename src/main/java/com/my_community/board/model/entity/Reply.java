@@ -15,12 +15,12 @@ import lombok.ToString;
 public class Reply {
 
 	@Id
-	private Long reply_no;
+	private long reply_no;
 
 	@Id
-	private Long board_no;
+	private long board_no;
 
-	private Long gid;
+	private long gid;
 
 	private String status;
 
