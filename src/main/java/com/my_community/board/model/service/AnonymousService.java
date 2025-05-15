@@ -31,6 +31,6 @@ public class AnonymousService implements BoardService {
 
 	@Override
 	public <T extends Board> Optional<T> getBoard(long boardNo) {
-		return (Optional<T>) repo.findById(boardNo);
+		return (Optional<T>) repo.findByBoardNoAndStatusTrue(boardNo);
 	}
 }

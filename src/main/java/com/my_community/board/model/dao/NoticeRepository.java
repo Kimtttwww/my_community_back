@@ -1,6 +1,7 @@
 package com.my_community.board.model.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,4 +15,6 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 	List<Board> findByStatusTrue();
 
 	int countByStatusTrue();
+
+	Optional<Board> findByBoardNoAndStatusTrue(long boardNo);
 }

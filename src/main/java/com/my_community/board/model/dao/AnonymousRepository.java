@@ -1,6 +1,7 @@
 package com.my_community.board.model.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,4 +16,5 @@ public interface AnonymousRepository extends JpaRepository<Anonymous, Long> {
 
 	public int countByStatusTrue();
 
+	public Optional<Board> findByBoardNoAndStatusTrue(long boardNo);
 }
