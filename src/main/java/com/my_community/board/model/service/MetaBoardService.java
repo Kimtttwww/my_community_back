@@ -15,7 +15,11 @@ public class MetaBoardService {
 
 	private final MetaBoardRepository repo;
 
-	public List<String> getBoardNameList() {
-		return repo.findAll().stream().map(MetaBoard::getBoard).toList();
+	public List<MetaBoard> getBoardNameList() {
+		return repo.findAll();
+	}
+
+	public MetaBoard getMetaBoard(String domain) {
+		return repo.findByBoard(domain);
 	}
 }

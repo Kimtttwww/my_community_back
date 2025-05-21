@@ -15,4 +15,6 @@ import lombok.ToString;
 public class MetaBoard {
 	@Id
 	private String board;
+
+	private String subtitle;
 }

@@ -8,4 +8,5 @@ import com.my_community.board.model.entity.MetaBoard;
 @Repository
 public interface MetaBoardRepository extends JpaRepository<MetaBoard, String> {
 
+	MetaBoard findByBoard(String domain);
 }
