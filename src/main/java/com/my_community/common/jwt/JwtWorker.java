@@ -24,25 +24,44 @@ public class JwtWorker {
 
 	private final JwtParser parser;
 
-	private final long EXPIRATION = 1000 * 60 * 30L;
+	private final long ACCESS_EXPIRATION = 1000 * 60 * 10L;
+
+	private final long REFRESH_EXPIRATION = ACCESS_EXPIRATION * 6;
+
+	public final static String ACCESS_COOKIE_NAME = "accessToken";
+
+	public final static String REFRESH_COOKIE_NAME= "refreshToken";
 
 	public JwtWorker(@Value("${jwt.secret}") String secretKey) {
 		super();
 		this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-		this.parser = Jwts.parserBuilder().setSigningKey(this.secretKey)
-				.build();
+		this.parser = Jwts.parserBuilder().setSigningKey(this.secretKey).build();
 	}
 
 	/**
-	 * JWT 발급
-	 * @param userDetails token에 담을 사용자 정보
+	 * access JWT 발급
+	 * @param id token에 담을 사용자 id
 	 * @return JWT(str)
 	 */
-	public String generateToken(UserDetails userDetails) {
+	public String generateAccessToken(String id) {
 		return Jwts.builder()
-				.setSubject(userDetails.getUsername())
-				.setIssuedAt(new Date())
-				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+				.setSubject(id)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + ACCESS_EXPIRATION))
+				.signWith(secretKey, SignatureAlgorithm.HS256)
+				.compact();
+	}
+	
+	/**
+	 * refresh JWT 발급
+	 * @param id token에 담을 사용자 id
+	 * @return JWT(str)
+	 */
+	public String generateRefreshToken(String id) {
+		return Jwts.builder()
+				.setSubject(id)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION))
 				.signWith(secretKey, SignatureAlgorithm.HS256)
 				.compact();
 	}

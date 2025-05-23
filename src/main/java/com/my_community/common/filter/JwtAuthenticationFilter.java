@@ -34,7 +34,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 
 		String token = authHeader.substring(7);
-
 		try {
 			Authentication authResult = manager.authenticate(JwtAuthenticationToken.unauthenticated(token));
 

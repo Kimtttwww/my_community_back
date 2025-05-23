@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,7 +17,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.my_community.common.filter.JwtAuthenticationFilter;
-import com.my_community.guest.model.service.GuestService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,17 +25,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-	private final GuestService service;
-
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthFilter) throws Exception {
-		http.httpBasic(basic -> basic.disable())
-				.formLogin(form -> form.disable())
+		http.httpBasic(basic -> basic.disable()).formLogin(form -> form.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.csrf(csrf -> csrf.disable()).cors(cors -> cors.configurationSource(myCorsConfig()))
-				.authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/guest/access", "/guest/refresh").permitAll()
+						.requestMatchers("/guest/**").authenticated()
+						.anyRequest().permitAll())
+				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+				.sessionManagement(sessionMgr -> sessionMgr.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		return http.build();
 	}
 
@@ -54,31 +52,6 @@ public class SecurityConfig {
 		return source;
 	}
 
-	@Bean
-	UsernamePasswordAuthenticationFilter myAuthFilter(AuthenticationConfiguration authConfig) throws Exception {
-		UsernamePasswordAuthenticationFilter authFilter = new UsernamePasswordAuthenticationFilter();
-
-		authFilter.setAuthenticationManager(authConfig.getAuthenticationManager());
-//		TODO 로그인 성공시 JWT 발급 처리 URL과 동일하게 설정 필요
-		authFilter.setFilterProcessesUrl("mylogin");
-		authFilter.setUsernameParameter("id");
-		authFilter.setPasswordParameter("pw");
-		return authFilter;
-	}
-
-	/**
-	 * 로그인 전용 인증 수단
-	 * @return 해당 객체 인스턴스
-	 * @apiNote 해당 provider를 사용하는 filter는 post인 로그인 req에서만 처리함
-	 */
-	@Bean
-	DaoAuthenticationProvider myAuthProvider() {
-		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-		provider.setUserDetailsService(service);
-		provider.setPasswordEncoder(passwordEncoder());
-		return provider;
-	}
-	
 	@Bean
 	AuthenticationManager authManager(AuthenticationConfiguration authConfig) throws Exception {
 		return authConfig.getAuthenticationManager();
