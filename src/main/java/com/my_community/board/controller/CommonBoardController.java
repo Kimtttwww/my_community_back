@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.my_community.board.model.dto.BoardListResult;
 import com.my_community.board.model.entity.Board;
+import com.my_community.board.model.entity.Category;
 import com.my_community.board.model.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,9 +24,14 @@ public abstract class CommonBoardController {
 		int count = service.getBoardCount();
 		return ResponseEntity.ok(new BoardListResult(count, boards));
 	}
-	
+
 	@GetMapping("/{boardNo}")
 	public ResponseEntity<Board> getBoard(@PathVariable("boardNo") long boardNo) {
 		return ResponseEntity.of(service.getBoard(boardNo));
+	}
+
+	@GetMapping("/category")
+	public ResponseEntity<List<Category>> getCategoryList() {
+		return ResponseEntity.ofNullable(service.getCategoryList());
 	}
 }

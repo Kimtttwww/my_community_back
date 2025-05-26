@@ -23,7 +23,7 @@ public class GuestService implements UserDetailsService {
 	private final GuestRepository repo;
 
 //	private final GuestDao dao;
-	
+
 	public Guest authorizeGuest(GuestUnknown unknown) throws NotFoundException {
 		return repo.findByIdAndStatusTrue(unknown.getId()).orElseThrow(() -> new NotFoundException("해당 사용자 없음"));
 	}

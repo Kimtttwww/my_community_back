@@ -17,10 +17,9 @@ import lombok.ToString;
 public class Category {
 
 	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long category_no;
+	private long categoryNo;
 
-	@Id
 	private String board;
 
-	private String category_name;
+	private String categoryName;
 }

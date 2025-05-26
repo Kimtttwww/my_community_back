@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.my_community.board.model.dao.CategoryRepository;
 import com.my_community.board.model.dao.NoticeDao;
 import com.my_community.board.model.dao.NoticeRepository;
 import com.my_community.board.model.entity.Board;
+import com.my_community.board.model.entity.Category;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,22 +17,31 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NoticeService implements BoardService {
 
-	private final NoticeDao dao;
+	private final String domain = "Notice";
 
-	private final NoticeRepository repo;
+	private final NoticeDao noticeDao;
+
+	private final NoticeRepository noticeRepo;
+
+	private final CategoryRepository categoryRepo;
 
 	@Override
 	public List<Board> getBoardList() {
-		return repo.findByStatusTrue();
+		return noticeRepo.findByStatusTrue();
 	}
 
 	@Override
 	public int getBoardCount() {
-		return repo.countByStatusTrue();
+		return noticeRepo.countByStatusTrue();
 	}
 
 	@Override
 	public <T extends Board> Optional<T> getBoard(long boardNo) {
-		return (Optional<T>) repo.findByBoardNoAndStatusTrue(boardNo);
+		return (Optional<T>) noticeRepo.findByBoardNoAndStatusTrue(boardNo);
+	}
+
+	@Override
+	public List<Category> getCategoryList() {
+		return categoryRepo.findByBoard(domain);
 	}
 }

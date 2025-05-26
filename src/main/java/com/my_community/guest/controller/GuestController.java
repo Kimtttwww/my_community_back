@@ -59,8 +59,8 @@ public class GuestController {
 	private HttpHeaders cookieHasJWTs(String accessJWT, String refreshJWT) {
 		HttpHeaders header = new HttpHeaders();
 
-		ResponseCookie accessCookie = ResponseCookie.from(JwtWorker.ACCESS_COOKIE_NAME, accessJWT).httpOnly(true).path("/")
-				.maxAge(Duration.ofMinutes(10)).sameSite("Lax").build();
+		ResponseCookie accessCookie = ResponseCookie.from(JwtWorker.ACCESS_COOKIE_NAME, accessJWT).httpOnly(true)
+				.path("/").maxAge(Duration.ofMinutes(10)).sameSite("Lax").build();
 		ResponseCookie refreshCookie = ResponseCookie.from(JwtWorker.REFRESH_COOKIE_NAME, refreshJWT).httpOnly(true)
 				.path("/guest/refresh").maxAge(Duration.ofHours(1)).sameSite("Strict").build();
 		header.add(HttpHeaders.SET_COOKIE, accessCookie.toString());
