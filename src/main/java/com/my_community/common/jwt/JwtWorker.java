@@ -30,7 +30,7 @@ public class JwtWorker {
 
 	public final static String ACCESS_COOKIE_NAME = "accessToken";
 
-	public final static String REFRESH_COOKIE_NAME= "refreshToken";
+	public final static String REFRESH_COOKIE_NAME = "refreshToken";
 
 	public JwtWorker(@Value("${jwt.secret}") String secretKey) {
 		super();
@@ -51,7 +51,7 @@ public class JwtWorker {
 				.signWith(secretKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
-	
+
 	/**
 	 * refresh JWT 발급
 	 * @param id token에 담을 사용자 id
@@ -84,6 +84,15 @@ public class JwtWorker {
 		return extractClaim(token, Claims::getExpiration);
 	}
 
+	/**
+	 * JWT의 payload에 있는 JWT 용도 추출(access / refresh)
+	 * @param token 사용자에게 제공받은 JWT
+	 * @return JWT에서 추출한 JWT 용도
+	 */
+	public String extractTokenType(String token) {
+		return extractClaim(token, claims -> claims.get("type", String.class));
+	}
+
 	public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
 		Claims claims = parser.parseClaimsJws(token).getBody();
 		return claimsResolver.apply(claims);
@@ -95,8 +104,8 @@ public class JwtWorker {
 	 * @param userDetails 사용자 이름
 	 */
 	public void isTokenValid(String token, UserDetails userDetails) {
-		if (!userDetails.getUsername().equals(extractUsername(token)) && isTokenExpired(token))
-			throw new BadCredentialsException("JWT Token is not valid");
+		if (isTokenExpired(token) && !userDetails.getUsername().equals(extractUsername(token)))
+			throw new BadCredentialsException("Invalid JWT");
 	}
 
 	private boolean isTokenExpired(String token) {

@@ -60,9 +60,9 @@ public class GuestController {
 		HttpHeaders header = new HttpHeaders();
 
 		ResponseCookie accessCookie = ResponseCookie.from(JwtWorker.ACCESS_COOKIE_NAME, accessJWT).httpOnly(true)
-				.path("/").maxAge(Duration.ofMinutes(10)).sameSite("Lax").build();
+				.path("/").maxAge(Duration.ofMinutes(30)).sameSite("Lax").build();
 		ResponseCookie refreshCookie = ResponseCookie.from(JwtWorker.REFRESH_COOKIE_NAME, refreshJWT).httpOnly(true)
-				.path("/").maxAge(Duration.ofHours(1)).sameSite("Lax").build();
+				.path("/").maxAge(Duration.ofHours(12)).sameSite("Lax").build();
 		header.add(HttpHeaders.SET_COOKIE, accessCookie.toString());
 		header.add(HttpHeaders.SET_COOKIE, refreshCookie.toString());
 

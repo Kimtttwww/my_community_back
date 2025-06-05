@@ -10,20 +10,20 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
 	private static final long serialVersionUID = 1L;
 	private final String token;
-    private final UserDetails principal;
+	private final UserDetails principal;
 
-    private JwtAuthenticationToken(String token) {
-        super(null);
-        this.token = token;
-        this.principal = null;
-        setAuthenticated(false);
-    }
+	private JwtAuthenticationToken(String token) {
+		super(null);
+		this.token = token;
+		this.principal = null;
+		setAuthenticated(false);
+	}
 
 	private JwtAuthenticationToken(UserDetails principal, Collection<? extends GrantedAuthority> authorities) {
 		super(authorities);
 		this.token = null;
-        this.principal = principal;
-        setAuthenticated(true);
+		this.principal = principal;
+		setAuthenticated(true);
 	}
 
 	@Override

@@ -17,34 +17,37 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 
-    private final JwtWorker jwtWorker;
+	private final JwtWorker jwtWorker;
 
-    private final UserDetailsService service;
+	private final UserDetailsService service;
 
-    /**
-     * 인증 동작
-     * @param authentication filter에서 제공한 인증되지 않은 사용자 정보
-     * @return 인증된 사용자
-     * @throws AuthenticationException 인증 실패
-     */
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String token = (String) authentication.getCredentials();
-        String username = jwtWorker.extractUsername(token);
+	/**
+	 * 인증 동작
+	 * @param authentication filter에서 제공한 인증되지 않은 사용자 정보
+	 * @return 인증된 사용자
+	 * @throws AuthenticationException 인증 실패
+	 */
+	@Override
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		String token = (String) authentication.getCredentials();
+		String username = jwtWorker.extractUsername(token);
 
-        if (username == null) {
-            throw new BadCredentialsException("Invalid JWT Token");
-        }
+		if (username == null) {
+			throw new BadCredentialsException("JWT is Null");
+		}
 
-        UserDetails userDetails = service.loadUserByUsername(username);
+		UserDetails userDetails = service.loadUserByUsername(username);
 
-        jwtWorker.isTokenValid(token, userDetails);
+		jwtWorker.isTokenValid(token, userDetails);
+		if (!jwtWorker.extractTokenType(token).equals(JwtWorker.ACCESS_COOKIE_NAME)) {
+			throw new BadCredentialsException("Invalid access JWT");
+		}
 
-        return JwtAuthenticationToken.authenticated(userDetails, userDetails.getAuthorities());
-    }
+		return JwtAuthenticationToken.authenticated(userDetails, userDetails.getAuthorities());
+	}
 
-    @Override
-    public boolean supports(Class<?> authentication) {
-        return JwtAuthenticationToken.class.isAssignableFrom(authentication);
-    }
+	@Override
+	public boolean supports(Class<?> authentication) {
+		return JwtAuthenticationToken.class.isAssignableFrom(authentication);
+	}
 }
