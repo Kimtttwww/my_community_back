@@ -1,6 +1,5 @@
 package com.my_community.guest.controller;
 
-import java.time.Duration;
 import java.util.Optional;
 
 import org.apache.ibatis.javassist.NotFoundException;
@@ -43,7 +42,7 @@ public class GuestController {
 
 	@GetMapping("/refresh")
 	public ResponseEntity<?> takeRefreshJWT(@CookieValue(JwtWorker.REFRESH_COOKIE_NAME) String oldRefreshJWT) {
-		String gid = jwtWorker.extractUsername(oldRefreshJWT);
+		String gid = jwtWorker.extractGid(oldRefreshJWT);
 		String accessJWT = jwtWorker.generateAccessToken(gid);
 		String refreshJWT = jwtWorker.generateRefreshToken(gid);
 
@@ -60,9 +59,9 @@ public class GuestController {
 		HttpHeaders header = new HttpHeaders();
 
 		ResponseCookie accessCookie = ResponseCookie.from(JwtWorker.ACCESS_COOKIE_NAME, accessJWT).httpOnly(true)
-				.path("/").maxAge(Duration.ofMinutes(30)).sameSite("Lax").build();
+				.path("/").maxAge(JwtWorker.ACCESS_EXPIRATION).sameSite("Lax").build();
 		ResponseCookie refreshCookie = ResponseCookie.from(JwtWorker.REFRESH_COOKIE_NAME, refreshJWT).httpOnly(true)
-				.path("/").maxAge(Duration.ofHours(12)).sameSite("Lax").build();
+				.path("/").maxAge(JwtWorker.REFRESH_EXPIRATION).sameSite("Lax").build();
 		header.add(HttpHeaders.SET_COOKIE, accessCookie.toString());
 		header.add(HttpHeaders.SET_COOKIE, refreshCookie.toString());
 

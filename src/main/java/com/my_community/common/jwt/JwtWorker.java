@@ -1,6 +1,7 @@
 package com.my_community.common.jwt;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -8,7 +9,6 @@ import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -24,13 +24,13 @@ public class JwtWorker {
 
 	private final JwtParser parser;
 
-	private final long ACCESS_EXPIRATION = 1000 * 60 * 10L;
+	public static final String ACCESS_COOKIE_NAME = "accessToken";
+	
+	public static final String REFRESH_COOKIE_NAME = "refreshToken";
+	
+	public static final Duration ACCESS_EXPIRATION = Duration.ofMinutes(30);
 
-	private final long REFRESH_EXPIRATION = ACCESS_EXPIRATION * 6;
-
-	public final static String ACCESS_COOKIE_NAME = "accessToken";
-
-	public final static String REFRESH_COOKIE_NAME = "refreshToken";
+	public static final Duration REFRESH_EXPIRATION = Duration.ofHours(6);
 
 	public JwtWorker(@Value("${jwt.secret}") String secretKey) {
 		super();
@@ -46,8 +46,9 @@ public class JwtWorker {
 	public String generateAccessToken(String id) {
 		return Jwts.builder()
 				.setSubject(id)
+				.claim("type", ACCESS_COOKIE_NAME)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + ACCESS_EXPIRATION))
+				.setExpiration(new Date(System.currentTimeMillis() + ACCESS_EXPIRATION.toMillis()))
 				.signWith(secretKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
@@ -60,8 +61,9 @@ public class JwtWorker {
 	public String generateRefreshToken(String id) {
 		return Jwts.builder()
 				.setSubject(id)
+				.claim("type", REFRESH_COOKIE_NAME)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION))
+				.setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION.toMillis()))
 				.signWith(secretKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
@@ -71,7 +73,7 @@ public class JwtWorker {
 	 * @param token 사용자에게 제공받은 JWT
 	 * @return JWT에서 추출한 사용자 식별명
 	 */
-	public String extractUsername(String token) {
+	public String extractGid(String token) {
 		return extractClaim(token, Claims::getSubject);
 	}
 
@@ -101,11 +103,11 @@ public class JwtWorker {
 	/**
 	 * JWT 유효성 검사(알고리즘, 식별명, 만료일)
 	 * @param token 사용자에게 제공받은 JWT
-	 * @param userDetails 사용자 이름
 	 */
-	public void isTokenValid(String token, UserDetails userDetails) {
-		if (isTokenExpired(token) && !userDetails.getUsername().equals(extractUsername(token)))
+	public boolean isTokenValid(String token) {
+		if (isTokenExpired(token))
 			throw new BadCredentialsException("Invalid JWT");
+		return true;
 	}
 
 	private boolean isTokenExpired(String token) {

@@ -4,7 +4,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
@@ -30,20 +29,16 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String token = (String) authentication.getCredentials();
-		String username = jwtWorker.extractUsername(token);
-
-		if (username == null) {
-			throw new BadCredentialsException("JWT is Null");
+		if (jwtWorker.isTokenValid(token) && !jwtWorker.extractTokenType(token).equals(JwtWorker.ACCESS_COOKIE_NAME)) {
+			throw new BadCredentialsException("Invalid (access) JWT");
 		}
 
-		UserDetails userDetails = service.loadUserByUsername(username);
-
-		jwtWorker.isTokenValid(token, userDetails);
-		if (!jwtWorker.extractTokenType(token).equals(JwtWorker.ACCESS_COOKIE_NAME)) {
-			throw new BadCredentialsException("Invalid access JWT");
+		String gid = jwtWorker.extractGid(token);
+		if (gid == null) {
+			throw new BadCredentialsException("unknown's JWT");
 		}
 
-		return JwtAuthenticationToken.authenticated(userDetails, userDetails.getAuthorities());
+		return JwtAuthenticationToken.authenticated(service.loadUserByUsername(gid));
 	}
 
 	@Override

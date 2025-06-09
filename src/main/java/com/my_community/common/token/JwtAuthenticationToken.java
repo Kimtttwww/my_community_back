@@ -19,8 +19,8 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 		setAuthenticated(false);
 	}
 
-	private JwtAuthenticationToken(UserDetails principal, Collection<? extends GrantedAuthority> authorities) {
-		super(authorities);
+	private JwtAuthenticationToken(UserDetails principal) {
+		super(principal.getAuthorities());
 		this.token = null;
 		this.principal = principal;
 		setAuthenticated(true);
@@ -36,8 +36,11 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 		return principal;
 	}
 
-	public static JwtAuthenticationToken authenticated(UserDetails user, Collection<? extends GrantedAuthority> authorities) {
-		return new JwtAuthenticationToken(user, authorities);
+	public static JwtAuthenticationToken authenticated(UserDetails user) {
+		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+		if (authorities == null || authorities.size() == 0)
+			throw new IllegalArgumentException("잘못된 인수");
+		return new JwtAuthenticationToken(user);
 	}
 
 	public static JwtAuthenticationToken unauthenticated(String token) {

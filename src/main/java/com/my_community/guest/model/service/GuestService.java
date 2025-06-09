@@ -25,12 +25,12 @@ public class GuestService implements UserDetailsService {
 //	private final GuestDao dao;
 
 	public Guest authorizeGuest(GuestUnknown unknown) throws NotFoundException {
-		return repo.findByIdAndStatusTrue(unknown.getId()).orElseThrow(() -> new NotFoundException("해당 사용자 없음"));
+		return repo.findByIdAndPwdAndStatusTrue(unknown.getId(), unknown.getPwd()).orElseThrow(() -> new NotFoundException("해당 사용자 없음"));
 	}
 
 	@Override
 	public User loadUserByUsername(String username) throws UsernameNotFoundException {
-		Guest guest = repo.findByIdAndStatusTrue(username)
+		Guest guest = repo.findByGidAndStatusTrue(Long.valueOf(username))
 				.orElseThrow(() -> new UsernameNotFoundException("일치하는 사용자 없음"));
 
 		return new User(guest.getId(), guest.getPwd(), List.of(new SimpleGrantedAuthority("ROLE_USER")));

@@ -10,5 +10,7 @@ import com.my_community.guest.model.entity.Guest;
 @Repository
 public interface GuestRepository extends JpaRepository<Guest, Long> {
 
-	public Optional<Guest> findByIdAndStatusTrue(String id);
+	public Optional<Guest> findByGidAndStatusTrue(long gid);
+
+	public Optional<Guest> findByIdAndPwdAndStatusTrue(String id, String pwd);
 }
