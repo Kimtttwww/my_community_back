@@ -35,4 +35,8 @@ public class GuestService implements UserDetailsService {
 
 		return new User(guest.getId(), guest.getPwd(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
 	}
+
+	public void registerGuest(Guest guest) {
+		repo.save(guest);
+	}
 }

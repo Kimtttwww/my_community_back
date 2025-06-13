@@ -31,8 +31,9 @@ public class SecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.csrf(csrf -> csrf.disable()).cors(cors -> cors.configurationSource(myCorsConfig()))
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/guest/access", "/guest/refresh").permitAll()
+						.requestMatchers("/guest/login", "/guest/refresh", "/guest/logup").permitAll()
 						.requestMatchers("/guest/**").authenticated()
+//						.requestMatchers("/**/write", "/**/modify").authenticated()
 						.anyRequest().permitAll())
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement(sessionMgr -> sessionMgr.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

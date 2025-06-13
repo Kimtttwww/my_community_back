@@ -20,5 +20,5 @@ public class Guest extends GuestUnknown {
 
 	private String nickname;
 
-	private String status;
+	private boolean status = true;
 }
