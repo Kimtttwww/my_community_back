@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.my_community.common.jwt.JwtWorker;
+import com.my_community.guest.model.dto.InNewGuest;
 import com.my_community.guest.model.entity.Guest;
 import com.my_community.guest.model.entity.GuestUnknown;
 import com.my_community.guest.model.service.GuestService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/guest")
@@ -31,8 +34,8 @@ public class GuestController {
 
 	private final JwtWorker jwtWorker;
 
-	@PostMapping("/access")
-	public ResponseEntity<?> authorizeGuest(@RequestBody GuestUnknown unknown) throws NotFoundException {
+	@PostMapping("/login")
+	public ResponseEntity<?> loginGuest(@RequestBody GuestUnknown unknown) throws NotFoundException {
 		Guest guest = service.authorizeGuest(unknown);
 		String accessJWT = jwtWorker.generateAccessToken(Long.toString(guest.getGid()));
 		String refreshJWT = jwtWorker.generateRefreshToken(Long.toString(guest.getGid()));
@@ -47,6 +50,14 @@ public class GuestController {
 		String refreshJWT = jwtWorker.generateRefreshToken(gid);
 
 		return ResponseEntity.ok().headers(cookieHasJWTs(accessJWT, refreshJWT)).build();
+	}
+
+	@PostMapping("/logup")
+	public ResponseEntity<?> logupGuest(@RequestBody InNewGuest newGuest) {
+//		service.registerGuest(newGuest);
+		log.info("args: " + newGuest);
+
+		return ResponseEntity.noContent().build();
 	}
 
 	@GetMapping("/test")

@@ -35,4 +35,8 @@ public class GuestService implements UserDetailsService {
 
 		return new User(guest.getId(), guest.getPwd(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
 	}
+
+	public void registerGuest() {
+//		TODO 기능 구현 필요
+	}
 }
