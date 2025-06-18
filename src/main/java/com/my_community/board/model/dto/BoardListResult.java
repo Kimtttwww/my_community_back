@@ -5,6 +5,6 @@ import java.util.List;
 import com.my_community.board.model.entity.Board;
 
 public record BoardListResult(
-		Integer count,
+		int count,
 		List<Board> boards
 ) {}

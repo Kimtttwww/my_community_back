@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.my_community.guest.model.dao.GuestDao;
@@ -24,8 +25,11 @@ public class GuestService implements UserDetailsService {
 
 //	private final GuestDao dao;
 
+	private final BCryptPasswordEncoder encoder;
+
 	public Guest authorizeGuest(GuestUnknown unknown) throws NotFoundException {
-		return repo.findByIdAndPwdAndStatusTrue(unknown.getId(), unknown.getPwd()).orElseThrow(() -> new NotFoundException("해당 사용자 없음"));
+		return repo.findByIdAndPwdAndStatusTrue(unknown.getId(), unknown.getPwd())
+				.orElseThrow(() -> new NotFoundException("해당 사용자 없음"));
 	}
 
 	@Override
@@ -37,6 +41,7 @@ public class GuestService implements UserDetailsService {
 	}
 
 	public void registerGuest(Guest guest) {
+		guest.setPwd(encoder.encode(guest.getPwd()));
 		repo.save(guest);
 	}
 }

@@ -9,6 +9,7 @@ import com.my_community.board.model.dao.CategoryRepository;
 import com.my_community.board.model.dao.GalleryDao;
 import com.my_community.board.model.dao.GalleryRepository;
 import com.my_community.board.model.entity.Board;
+import com.my_community.board.model.entity.BoardSearchOption;
 import com.my_community.board.model.entity.Category;
 
 import lombok.RequiredArgsConstructor;
@@ -26,12 +27,12 @@ public class GalleryService implements BoardService {
 	private final CategoryRepository categoryRepo;
 
 	@Override
-	public List<Board> getBoardList() {
-		return galleryRepo.findByStatusTrue();
+	public List<Board> getBoardList(BoardSearchOption searchOption) {
+		return galleryDao.getBoardList(searchOption);
 	}
 
 	@Override
-	public int getBoardCount() {
+	public int getBoardCount(BoardSearchOption searchOption) {
 		return galleryRepo.countByStatusTrue();
 	}
 

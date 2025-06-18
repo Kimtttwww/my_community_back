@@ -1,6 +1,6 @@
 package com.my_community.guest.model.dto;
 
-public record InNewGuest(
+public record NewGuestArgs(
 		String id,
 		String pwd,
 		String nickname

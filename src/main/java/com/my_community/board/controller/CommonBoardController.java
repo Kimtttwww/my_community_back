@@ -4,29 +4,35 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.my_community.board.model.dto.BoardListResult;
+import com.my_community.board.model.dto.BoardSearchOptionArgs;
 import com.my_community.board.model.entity.Board;
 import com.my_community.board.model.entity.Category;
+import com.my_community.board.model.mapper.BoardMapper;
 import com.my_community.board.model.service.BoardService;
 
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public abstract class CommonBoardController {
 
 	protected final BoardService service;
+	
+	private final BoardMapper mapper;
 
 	@GetMapping("/")
-	public ResponseEntity<BoardListResult> getBoardList() {
-		List<Board> boards = service.getBoardList();
-		int count = service.getBoardCount();
+	public ResponseEntity<BoardListResult> getBoardList(@ModelAttribute BoardSearchOptionArgs args) {
+		List<Board> boards = service.getBoardList(mapper.toEntity(args));
+		int count = service.getBoardCount(mapper.toEntity(args));
 		return ResponseEntity.ok(new BoardListResult(count, boards));
 	}
 
 	@GetMapping("/{boardNo}")
-	public ResponseEntity<Board> getBoard(@PathVariable("boardNo") long boardNo) {
+	public ResponseEntity<Board> getBoard(@Positive @PathVariable("boardNo") long boardNo) {
 		return ResponseEntity.of(service.getBoard(boardNo));
 	}
 

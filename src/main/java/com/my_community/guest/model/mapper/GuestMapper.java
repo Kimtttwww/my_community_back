@@ -1,11 +1,13 @@
 package com.my_community.guest.model.mapper;
 
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants.ComponentModel;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import com.my_community.guest.model.dto.InNewGuest;
+import com.my_community.guest.model.dto.NewGuestArgs;
 import com.my_community.guest.model.entity.Guest;
 
 @Mapper(
@@ -15,5 +17,12 @@ import com.my_community.guest.model.entity.Guest;
 )
 public interface GuestMapper {
 	
-	Guest toEntity(InNewGuest dto); 
+	Guest toEntity(NewGuestArgs dto);
+	
+//	@AfterMapping
+//	default void encodingPwd(NewGuestArgs args, @MappingTarget Guest guest) {
+//		if (guest != null) {
+//			guest.setPwd((guest.getPwd()));
+//		}
+//	}
 }

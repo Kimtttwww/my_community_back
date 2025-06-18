@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import com.my_community.board.model.entity.Board;
+import com.my_community.board.model.entity.BoardSearchOption;
 import com.my_community.board.model.entity.Category;
 
 public interface BoardService {
 
-	List<Board> getBoardList();
+	List<Board> getBoardList(BoardSearchOption searchOption);
 
-	int getBoardCount();
+	int getBoardCount(BoardSearchOption searchOption);
 
 	<T extends Board> Optional<T> getBoard(long boardNo);
 
