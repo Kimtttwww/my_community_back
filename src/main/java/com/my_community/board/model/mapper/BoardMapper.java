@@ -8,6 +8,8 @@ import org.mapstruct.NullValueMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.my_community.board.model.dto.BoardSearchOptionArgs;
+import com.my_community.board.model.dto.NewBoardArgs;
+import com.my_community.board.model.entity.Board;
 import com.my_community.board.model.entity.BoardSearchOption;
 
 @Mapper(
@@ -18,6 +20,8 @@ import com.my_community.board.model.entity.BoardSearchOption;
 public interface BoardMapper {
 
 	BoardSearchOption toEntity(BoardSearchOptionArgs args);
+
+	Board toEntity(NewBoardArgs newBoard);
 
 	@AfterMapping
 	default void boardSearchOptionAfter(BoardSearchOptionArgs sourceArgs, @MappingTarget BoardSearchOption args) {

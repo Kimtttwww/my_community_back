@@ -6,9 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.my_community.board.model.dto.BoardListResult;
 import com.my_community.board.model.dto.BoardSearchOptionArgs;
+import com.my_community.board.model.dto.NewBoardArgs;
 import com.my_community.board.model.entity.Board;
 import com.my_community.board.model.entity.Category;
 import com.my_community.board.model.mapper.BoardMapper;
@@ -21,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public abstract class CommonBoardController {
 
 	protected final BoardService service;
-	
+
 	private final BoardMapper mapper;
 
 	@GetMapping("/")
@@ -39,5 +42,11 @@ public abstract class CommonBoardController {
 	@GetMapping("/category")
 	public ResponseEntity<List<Category>> getCategoryList() {
 		return ResponseEntity.ofNullable(service.getCategoryList());
+	}
+
+	@PostMapping("/write")
+	public ResponseEntity<?> addNewBoard(@RequestBody NewBoardArgs newBoard) {
+		service.addNewBoard(mapper.toEntity(newBoard));
+		return ResponseEntity.noContent().build();
 	}
 }

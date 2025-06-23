@@ -6,5 +6,5 @@ import com.my_community.board.model.entity.Board;
 
 public record BoardListResult(
 		int count,
-		List<Board> boards
-) {}
+		List<Board> boards) {
+}

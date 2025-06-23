@@ -45,4 +45,10 @@ public class NoticeService implements BoardService {
 	public List<Category> getCategoryList() {
 		return categoryRepo.findByBoard(domain);
 	}
+
+	@Override
+	public void addNewBoard(Board newBoard) {
+//		TODO 구현필요
+		
+	}
 }

@@ -16,4 +16,6 @@ public interface BoardService {
 	<T extends Board> Optional<T> getBoard(long boardNo);
 
 	List<Category> getCategoryList();
+
+	void addNewBoard(Board newBoard);
 }
