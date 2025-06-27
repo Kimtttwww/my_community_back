@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GalleryService implements BoardService {
 
-	private final String domain = "Gallery";
+	private final String domain = "gallery";
 
 	private final GalleryDao galleryDao;
 
@@ -48,7 +48,8 @@ public class GalleryService implements BoardService {
 
 	@Override
 	public void addNewBoard(Board newBoard) {
-//		TODO 구현필요
-		
+		newBoard.setBoard(domain);
+		galleryDao.addNewBoard(newBoard);
+//		TODO 첨부파일 관련 구현필요
 	}
 }

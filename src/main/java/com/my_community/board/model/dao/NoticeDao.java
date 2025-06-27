@@ -12,4 +12,6 @@ public interface NoticeDao {
 	List<Board> getBoardList(BoardSearchOption searchOption);
 	
 	int getBoardCount(BoardSearchOption searchOption);
+
+	void addNewBoard(Board newBoard);
 }

@@ -10,4 +10,9 @@
 	<select id="getBoardCount" parameterType="boardSearchOption" resultType="int">
 		SELECT COUNT(*) FROM VW_NOTICE
 	</select>
+	
+	<insert id="addNewBoard" parameterType="board">
+		INSERT INTO tb_board(board, gid, title, content)
+		VALUES (#{board}, #{writer}, #{title}, #{content})
+	</insert>
 </mapper>

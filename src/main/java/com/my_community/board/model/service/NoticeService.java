@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NoticeService implements BoardService {
 
-	private final String domain = "Notice";
+	private final String domain = "notice";
 
 	private final NoticeDao noticeDao;
 
@@ -48,7 +48,7 @@ public class NoticeService implements BoardService {
 
 	@Override
 	public void addNewBoard(Board newBoard) {
-//		TODO 구현필요
-		
+		newBoard.setBoard(domain);
+		noticeDao.addNewBoard(newBoard);
 	}
 }

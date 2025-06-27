@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AnonymousService implements BoardService {
 
-	private final String domain = "Anonymous";
+	private final String domain = "anonymous";
 
 	private final AnonymousDao anonymousDao;
 
@@ -48,7 +48,7 @@ public class AnonymousService implements BoardService {
 
 	@Override
 	public void addNewBoard(Board newBoard) {
-//		TODO 구현필요
-		
+		newBoard.setBoard(domain);
+		anonymousDao.addNewBoard(newBoard);
 	}
 }
