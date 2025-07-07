@@ -9,8 +9,9 @@ import com.my_community.board.model.entity.BoardSearchOption;
 
 @Mapper
 public interface NoticeDao {
+
 	List<Board> getBoardList(BoardSearchOption searchOption);
-	
+
 	int getBoardCount(BoardSearchOption searchOption);
 
 	void addNewBoard(Board newBoard);

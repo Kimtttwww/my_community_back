@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.my_community.board.model.dao.AnonymousDao;
-import com.my_community.board.model.dao.AnonymousRepository;
 import com.my_community.board.model.dao.CategoryRepository;
+import com.my_community.board.model.dao.FaqDao;
+import com.my_community.board.model.dao.FaqRepository;
 import com.my_community.board.model.entity.Board;
 import com.my_community.board.model.entity.BoardSearchOption;
 import com.my_community.board.model.entity.Category;
@@ -16,29 +16,29 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AnonymousService implements BoardService {
+public class FaqService implements BoardService {
 
-	private final String domain = "anonymous";
+	private final String domain = "faq";
 
-	private final AnonymousDao anonymousDao;
+	private final FaqDao faqDao;
 
-	private final AnonymousRepository anonymousRepo;
+	private final FaqRepository faqRepo;
 
 	private final CategoryRepository categoryRepo;
 
 	@Override
 	public List<Board> getBoardList(BoardSearchOption searchOption) {
-		return anonymousDao.getBoardList(searchOption);
+		return faqDao.getBoardList(searchOption);
 	}
 
 	@Override
 	public int getBoardCount(BoardSearchOption searchOption) {
-		return anonymousDao.getBoardCount(searchOption);
+		return faqDao.getBoardCount(searchOption);
 	}
 
 	@Override
 	public <T extends Board> Optional<T> getBoard(long boardNo) {
-		return (Optional<T>) anonymousRepo.findByBoardNoAndStatusTrue(boardNo);
+		return (Optional<T>) faqRepo.findByBoardNoAndStatusTrue(boardNo);
 	}
 
 	@Override
@@ -48,7 +48,6 @@ public class AnonymousService implements BoardService {
 
 	@Override
 	public void addNewBoard(Board newBoard) {
-		newBoard.setBoard(domain);
-		anonymousDao.addNewBoard(newBoard);
+		throw new UnsupportedOperationException("아직 faq 추가는 허용되지 않습니다..... 아직은");
 	}
 }

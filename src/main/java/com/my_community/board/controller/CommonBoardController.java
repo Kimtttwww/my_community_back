@@ -36,6 +36,7 @@ public abstract class CommonBoardController {
 
 	@GetMapping("/{boardNo}")
 	public ResponseEntity<Board> getBoard(@Positive @PathVariable("boardNo") long boardNo) {
+//		TODO 조회시 조회수 증가 기능 추가 필요
 		return ResponseEntity.of(service.getBoard(boardNo));
 	}
 

@@ -33,7 +33,7 @@ public class NoticeService implements BoardService {
 
 	@Override
 	public int getBoardCount(BoardSearchOption searchOption) {
-		return noticeRepo.countByStatusTrue();
+		return noticeDao.getBoardCount(searchOption);
 	}
 
 	@Override

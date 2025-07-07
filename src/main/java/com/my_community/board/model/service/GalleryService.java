@@ -33,7 +33,7 @@ public class GalleryService implements BoardService {
 
 	@Override
 	public int getBoardCount(BoardSearchOption searchOption) {
-		return galleryRepo.countByStatusTrue();
+		return galleryDao.getBoardCount(searchOption);
 	}
 
 	@Override

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.my_community.board.model.dao.GalleryDao">
-	<select id="getBoardList" parameterType="boardSearchOption" resultType="gallery">
-		SELECT * FROM vw_gallery
+<mapper namespace="com.my_community.board.model.dao.FaqDao">
+	<select id="getBoardList" parameterType="boardSearchOption" resultType="anonymous">
+		SELECT * FROM vw_faq
 		ORDER BY created DESC, board_no DESC
 		LIMIT #{offset}, #{perPage}
 	</select>
 
 	<select id="getBoardCount" parameterType="boardSearchOption" resultType="int">
-		SELECT COUNT(*) FROM vw_gallery
+		SELECT COUNT(*) FROM vw_faq
 	</select>
 	
+	<!-- 
 	<insert id="addNewBoard" parameterType="board">
 		INSERT INTO tb_board(board, gid, title, content)
 		VALUES (#{board}, #{writer}, #{title}, #{content})
 	</insert>
+	 -->
 </mapper>
