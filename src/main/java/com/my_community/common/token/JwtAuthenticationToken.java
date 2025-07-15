@@ -9,7 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
 	private static final long serialVersionUID = 1L;
+
 	private final String token;
+
 	private final UserDetails principal;
 
 	private JwtAuthenticationToken(String token) {
